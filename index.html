@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>抖音视频feed流</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+
+
+        <!-- 视频播放器容器 -->
+        <div class="video-feed" id="videoFeed">
+            <!-- 顶部导航（固定不动） -->
+            <div class="top-nav">
+                <button class="menu-btn">
+                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 12H40M8 24H40M8 36H40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <nav class="nav-tabs">
+                    <span class="nav-tab">热点</span>
+                    <span class="nav-tab">关注</span>
+                    <a href="#" class="nav-tab active">精选</a>
+                    <span class="nav-tab">团购</span>
+                    <span class="nav-tab">商城</span>
+                    <span class="nav-tab">推荐</span>
+                </nav>
+                <button class="search-btn">
+                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="12" stroke="white" stroke-width="2"/>
+                        <path d="M36 36L44 44" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 第一个视频 -->
+            <div class="video-item active">
+                <!-- 视频内容区 -->
+                <div class="video-container">
+                    <img src="IMG_4878.jpg" class="video-placeholder" alt="视频内容">
+                    
+                    <!-- 表情显示区域 -->
+                    <div class="emoji-display"></div>
+                    
+                    <!-- 引导文字 -->
+                    <div class="guide-text">
+                        双击屏幕，选择表情有惊喜
+                        <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 43C16.2742 41.2327 12.3325 35.1851 10.3597 31.6428C9.50794 30.1134 9.95664 28.2347 11.3236 27.1411C12.8473 25.9222 15.0438 26.0438 16.4236 27.4236L18 29V17.5C18 16.1193 19.1193 15 20.5 15C21.8807 15 23 16.1193 23 17.5V23.5C23 22.1193 24.1193 21 25.5 21C26.8807 21 28 22.1193 28 23.5V25.5C28 24.1193 29.1193 23 30.5 23C31.8807 23 33 24.1193 33 25.5V27.5C33 26.1193 34.1193 25 35.5 25C36.8807 25 38 26.1193 38 27.5V35.368C38 36.4383 37.7354 37.496 37.1185 38.3707C36.0949 39.8219 34.255 42.0336 32 43C28.5 44.5 25.3701 44.6343 21 43Z" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 9L15 12" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 4L20 10" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M27 8L25 11" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- 轮盘选择器 -->
+                <div class="wheel-selector">
+                    <div class="wheel-item">
+                        <img src="fire-fire.png" class="wheel-icon" alt="火焰"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="hearts-fire.png" class="wheel-icon" alt="爱心火焰"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="heart-cupid.png" class="wheel-icon" alt="爱心"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="+1-smiling_face_with_3_hearts.png" class="wheel-icon" alt="+1"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="cupid-two_hearts.png" class="wheel-icon" alt="丘比特"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="laughing-smiling_face_with_3_hearts.png" class="wheel-icon" alt="大笑"/>
+                    </div>
+                </div>
+
+                <!-- 右侧互动按钮区 -->
+                <div class="action-bar">
+                    <!-- 用户头像 -->
+                    <div class="action-item">
+                        <div class="avatar-container">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20girl%20with%20pink%20hair%20cute%20manga%20style&image_size=square" class="avatar" alt="用户头像">
+                            <div class="follow-btn">
+                                <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 12V36M12 24H36" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 点赞 -->
+                    <div class="action-item">
+                        <button class="action-btn like-btn">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 40C18 36 8 28 8 18C8 12 12 8 18 8C21 8 23 10 24 12C25 10 27 8 30 8C36 8 40 12 40 18C40 28 30 36 24 40Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">1747</span>
+                    </div>
+
+                    <!-- 评论 -->
+                    <div class="action-item">
+                        <button class="action-btn comment-btn">
+                            <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M44 6H4V36H13V41L23 36H44V6Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 21H34" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">212</span>
+                    </div>
+
+                    <!-- 收藏 -->
+                    <div class="action-item">
+                        <button class="action-btn star-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 4L29.4 14.4L41 16L32.5 24L34.8 35.6L24 30L13.2 35.6L15.5 24L7 16L18.6 14.4L24 4Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">63</span>
+                    </div>
+
+                    <!-- 分享 -->
+                    <div class="action-item">
+                        <button class="action-btn share-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M26 4L44 22L26 39V28C12 28 6 43 6 43C6 26 11 15 26 15V4Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">955</span>
+                    </div>
+                </div>
+
+                <!-- 视频信息区 -->
+                <div class="video-info">
+                    <!-- 弹幕按钮 -->
+                    <button class="danmaku-btn">
+                        <span>弹</span>
+                    </button>
+
+                    <!-- 作者信息和描述 -->
+                    <div class="author-info">
+                        <h2 class="author-name">@吹画记</h2>
+                        <p class="video-desc">
+                            宝子们，四选一！#同人 #守望先锋#安燃 #画画#板绘
+                            <span class="expand-tag">⌄</span>
+                        </p>
+                    </div>
+
+                    <!-- 音乐信息 -->
+                    <div class="music-info">
+                        <div class="music-marquee">
+                            <span>🎵 搜索 - 守望先锋安燃皮肤</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二个视频 -->
+            <div class="video-item">
+                <!-- 视频内容区 -->
+                <div class="video-container">
+                    <img src="截屏2026-04-17 02.39.24.png" class="video-placeholder" alt="视频内容">
+                    
+                    <!-- 表情显示区域 -->
+                    <div class="emoji-display"></div>
+                </div>
+                
+                <!-- 轮盘选择器 -->
+                <div class="wheel-selector">
+                    <div class="wheel-item">
+                        <img src="cherry_blossom-smiling_face_with_3_hearts.png" class="wheel-icon" alt="樱花"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="cherry_blossom-two_hearts.png" class="wheel-icon" alt="樱花爱心"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="cherry_blossom-face_with_head_bandage.png" class="wheel-icon" alt="樱花绷带"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="pink_heart-cherry_blossom.png" class="wheel-icon" alt="粉色樱花"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="light_blue_heart-cherry_blossom.png" class="wheel-icon" alt="蓝色樱花"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="rock-thinking_face.png" class="wheel-icon" alt="思考"/>
+                    </div>
+                </div>
+
+                <!-- 右侧互动按钮区 -->
+                <div class="action-bar">
+                    <!-- 用户头像 -->
+                    <div class="action-item">
+                        <div class="avatar-container">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20girl%20with%20orange%20hair%20cute%20manga%20style&image_size=square" class="avatar" alt="用户头像">
+                            <div class="follow-btn">
+                                <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 12V36M12 24H36" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 点赞 -->
+                    <div class="action-item">
+                        <button class="action-btn like-btn">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 40C18 36 8 28 8 18C8 12 12 8 18 8C21 8 23 10 24 12C25 10 27 8 30 8C36 8 40 12 40 18C40 28 30 36 24 40Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">862</span>
+                    </div>
+
+                    <!-- 评论 -->
+                    <div class="action-item">
+                        <button class="action-btn comment-btn">
+                            <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M44 6H4V36H13V41L23 36H44V6Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 21H34" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">100</span>
+                    </div>
+
+                    <!-- 收藏 -->
+                    <div class="action-item">
+                        <button class="action-btn star-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 4L29.4 14.4L41 16L32.5 24L34.8 35.6L24 30L13.2 35.6L15.5 24L7 16L18.6 14.4L24 4Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">24</span>
+                    </div>
+
+                    <!-- 分享 -->
+                    <div class="action-item">
+                        <button class="action-btn share-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M26 4L44 22L26 39V28C12 28 6 43 6 43C6 26 11 15 26 15V4Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">1034</span>
+                    </div>
+                </div>
+
+                <!-- 视频信息区 -->
+                <div class="video-info">
+                    <!-- 弹幕按钮 -->
+                    <button class="danmaku-btn">
+                        <span>弹</span>
+                    </button>
+
+                    <!-- 作者信息和描述 -->
+                    <div class="author-info">
+                        <h2 class="author-name">@气死美女了</h2>
+                        <p class="video-desc">
+                            新出的樱花特写真的美爆了！我们的朱诺又带货咯 #守望先锋 #守望先锋归来 #游戏皮肤
+                            <span class="expand-tag">⌄</span>
+                        </p>
+                    </div>
+
+                    <!-- 音乐信息 -->
+                    <div class="music-info">
+                        <div class="music-marquee">
+                            <span>🎵 银临 - 牵丝戏</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三个视频 -->
+            <div class="video-item">
+                <!-- 视频内容区 -->
+                <div class="video-container">
+                    <img src="cat截屏2026-04-17 02.38.35.png" class="video-placeholder" alt="视频内容">
+                    
+                    <!-- 表情显示区域 -->
+                    <div class="emoji-display"></div>
+                </div>
+                
+                <!-- 轮盘选择器 -->
+                <div class="wheel-selector">
+                    <div class="wheel-item">
+                        <img src="relaxed-cat.png" class="wheel-icon" alt="放松的猫"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="two_hearts-cat.png" class="wheel-icon" alt="双心猫"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="heartbeat-feet.png" class="wheel-icon" alt="心跳脚"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="hearts-feet.png" class="wheel-icon" alt="爱心脚"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="kissing_heart-drooling_face.png" class="wheel-icon" alt="流口水的脸"/>
+                    </div>
+                    <div class="wheel-item">
+                        <img src="cherry_blossom-face_with_head_bandage.png" class="wheel-icon" alt="带头巾的脸"/>
+                    </div>
+                </div>
+
+                <!-- 右侧互动按钮区 -->
+                <div class="action-bar">
+                    <!-- 用户头像 -->
+                    <div class="action-item">
+                        <div class="avatar-container">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=black%20cat%20icon%20with%20yellow%20eyes%20cartoon%20style&image_size=square" class="avatar" alt="用户头像">
+                            <div class="follow-btn">
+                                <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 12V36M12 24H36" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 点赞 -->
+                    <div class="action-item">
+                        <button class="action-btn like-btn">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 40C18 36 8 28 8 18C8 12 12 8 18 8C21 8 23 10 24 12C25 10 27 8 30 8C36 8 40 12 40 18C40 28 30 36 24 40Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">101.3万</span>
+                    </div>
+
+                    <!-- 评论 -->
+                    <div class="action-item">
+                        <button class="action-btn comment-btn">
+                            <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M44 6H4V36H13V41L23 36H44V6Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 21H34" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">1.1万</span>
+                    </div>
+
+                    <!-- 收藏 -->
+                    <div class="action-item">
+                        <button class="action-btn star-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 4L29.4 14.4L41 16L32.5 24L34.8 35.6L24 30L13.2 35.6L15.5 24L7 16L18.6 14.4L24 4Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">3.6万</span>
+                    </div>
+
+                    <!-- 分享 -->
+                    <div class="action-item">
+                        <button class="action-btn share-btn">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M26 4L44 22L26 39V28C12 28 6 43 6 43C6 26 11 15 26 15V4Z" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span class="action-count">47.3万</span>
+                    </div>
+                </div>
+
+                <!-- 视频信息区 -->
+                <div class="video-info">
+                    <!-- 弹幕按钮 -->
+                    <button class="danmaku-btn">
+                        <span>弹</span>
+                    </button>
+
+                    <!-- 作者信息和描述 -->
+                    <div class="author-info">
+                        <h2 class="author-name">@黑糖乎乎</h2>
+                        <p class="video-desc">
+                            咪之圆 一手机屏装不下 #萌宠 #猫猫的铲屎官 #猫咪
+                            <span class="expand-tag">⌄</span>
+                        </p>
+                    </div>
+
+                    <!-- 音乐信息 -->
+                    <div class="music-info">
+                        <div class="music-marquee">
+                            <span>🎵 猫咪进行曲 - 可爱版</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">首页</span>
+                <span class="arrow">⌄</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">朋友</span>
+            </a>
+            <a href="#" class="nav-item add-btn">
+                <svg width="48" height="32" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="2" width="40" height="28" rx="8" fill="white"/>
+                    <rect x="10" y="8" width="12" height="16" rx="2" fill="#FE2C55"/>
+                    <rect x="26" y="8" width="12" height="16" rx="2" fill="#25F4EE"/>
+                </svg>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">消息</span>
+                <span class="badge">1</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">我</span>
+            </a>
+        </div>
+
+        <!-- 第一个视频评论区 -->
+        <div class="comment-section" id="commentSection1">
+            <div class="comment-header">
+                <h3>129条评论</h3>
+                <button class="close-btn" data-video="1">
+                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12L36 36M36 12L12 36" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="comment-list">
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20cute%20girl%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">糖糖爱守望</span>
+                            <div class="emoji-status-bar">
+                                <img src="hearts-fire.png" class="status-emoji" alt="火焰爱心">
+                            </div>
+                            <span class="comment-time">2分钟前</span>
+                        </div>
+                        <p class="comment-text">双击有惊喜，又更新玩法了，还挺契合画面的</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>23</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20boy%20with%20black%20hair%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">hanserlive</span>
+                            <span class="comment-time">4-7·广东</span>
+                        </div>
+                        <p class="comment-text">我就说安燃该长这样吧</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>1</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                        <div class="comment-reply">
+                            <span class="reply-label">作者回复过</span>
+                            <button class="expand-btn">展开1条回复</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20girl%20with%20blue%20hair%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">琉璃璃璃 <span class="author-tag">作者</span></span>
+                            <span class="comment-time">4-7·浙江</span>
+                        </div>
+                        <p class="comment-text">美而萌之，帅而俏之</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>178</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                        <div class="comment-reply">
+                            <button class="expand-btn">展开2条回复</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-input-section">
+                <input type="text" placeholder="说说你喜欢守望先锋哪个角色？" class="comment-input" data-video="1">
+                <div class="input-actions">
+                    <button class="emoji-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#999"/>
+                            <path d="M8 14H16M16 10H8M12 16C13.1 16 14 15.1 14 14C14 12.9 13.1 12 12 12C10.9 12 10 12.9 10 14C10 15.1 10.9 16 12 16Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="at-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="4" fill="#999"/>
+                            <path d="M12 16C15.31 16 18 13.31 18 10C18 6.69 15.31 4 12 4C8.69 4 6 6.69 6 10C6 13.31 8.69 16 12 16Z" fill="#999"/>
+                        </svg>
+                    </button>
+                    <button class="image-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="#999" stroke-width="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5" fill="#999"/>
+                            <path d="M21 15L16 10L5 21" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二个视频评论区 -->
+        <div class="comment-section" id="commentSection2">
+            <div class="comment-header">
+                <h3>358条评论</h3>
+                <button class="close-btn" data-video="2">
+                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12L36 36M36 12L12 36" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="comment-list">
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20cute%20boy%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">落樱时节</span>
+                            <div class="emoji-status-bar">
+                                <img src="cherry_blossom-smiling_face_with_3_hearts.png" class="status-emoji" alt="樱花">
+                            </div>
+                            <span class="comment-time">5分钟前</span>
+                        </div>
+                        <p class="comment-text">双击有惊喜！新玩法太浪漫了，花瓣飘落好美</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>45</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20girl%20with%20orange%20hair%20cute%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">樱花雨</span>
+                            <div class="emoji-status-bar">
+                                <img src="cherry_blossom-smiling_face_with_3_hearts.png" class="status-emoji" alt="樱花">
+                            </div>
+                            <span class="comment-time">3-21·北京</span>
+                        </div>
+                        <p class="comment-text">这个樱花特效太好看了！</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>234</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20boy%20with%20brown%20hair%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">气死美女了 <span class="author-tag">作者</span></span>
+                            <span class="comment-time">3-21·上海</span>
+                        </div>
+                        <p class="comment-text">这下真得买买买了</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>567</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-input-section">
+                <input type="text" placeholder="太美了！说说你的感受..." class="comment-input" data-video="2">
+                <div class="input-actions">
+                    <button class="emoji-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#999"/>
+                            <path d="M8 14H16M16 10H8M12 16C13.1 16 14 15.1 14 14C14 12.9 13.1 12 12 12C10.9 12 10 12.9 10 14C10 15.1 10.9 16 12 16Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="at-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="4" fill="#999"/>
+                            <path d="M12 16C15.31 16 18 13.31 18 10C18 6.69 15.31 4 12 4C8.69 4 6 6.69 6 10C6 13.31 8.69 16 12 16Z" fill="#999"/>
+                        </svg>
+                    </button>
+                    <button class="image-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="#999" stroke-width="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5" fill="#999"/>
+                            <path d="M21 15L16 10L5 21" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三个视频评论区 -->
+        <div class="comment-section" id="commentSection3">
+            <div class="comment-header">
+                <h3>1.1万条评论</h3>
+                <button class="close-btn" data-video="3">
+                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12L36 36M36 12L12 36" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="comment-list">
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20cute%20girl%20with%20cat%20ears%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">喵星人日记</span>
+                            <div class="emoji-status-bar">
+                                <img src="relaxed-cat.png" class="status-emoji" alt="猫">
+                            </div>
+                            <span class="comment-time">8分钟前</span>
+                        </div>
+                        <p class="comment-text">双击有惊喜！这个小猫咪表情好可爱，新玩法太有趣了</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>89</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20girl%20with%20cat%20ears%20cute%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">猫奴一枚</span>
+                            <span class="comment-time">12-4·广东</span>
+                        </div>
+                        <p class="comment-text">这猫也太圆了吧！好可爱</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>5.6万</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20boy%20with%20black%20cat%20ears%20manga%20style&image_size=square" alt="用户头像">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header-row">
+                            <span class="comment-username">黑糖乎乎 <span class="author-tag">作者</span></span>
+                            <span class="comment-time">12-4·上海</span>
+                        </div>
+                        <p class="comment-text">谢谢大家喜欢我家主子！</p>
+                        <div class="comment-actions">
+                            <button class="like-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 20C8 16 2 12 2 6C2 3 4 1 7 1C9 1 10 2 12 4C14 2 15 1 17 1C20 1 22 3 22 6C22 12 16 16 12 20Z" fill="#999"/>
+                                </svg>
+                                <span>8.9万</span>
+                            </button>
+                            <button class="reply-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#999"/>
+                                </svg>
+                                <span>回复</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-input-section">
+                <input type="text" placeholder="好可爱的猫咪！说说你的感受..." class="comment-input" data-video="3">
+                <div class="input-actions">
+                    <button class="emoji-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#999"/>
+                            <path d="M8 14H16M16 10H8M12 16C13.1 16 14 15.1 14 14C14 12.9 13.1 12 12 12C10.9 12 10 12.9 10 14C10 15.1 10.9 16 12 16Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="at-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="4" fill="#999"/>
+                            <path d="M12 16C15.31 16 18 13.31 18 10C18 6.69 15.31 4 12 4C8.69 4 6 6.69 6 10C6 13.31 8.69 16 12 16Z" fill="#999"/>
+                        </svg>
+                    </button>
+                    <button class="image-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="#999" stroke-width="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5" fill="#999"/>
+                            <path d="M21 15L16 10L5 21" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
